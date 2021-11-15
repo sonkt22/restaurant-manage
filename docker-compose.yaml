@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  restaurant_manage_postgresql:
+    image: bitnami/postgresql:11
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresql_data:/bitnami/postgresql
+      - ./database:/docker-entrypoint-initdb.d/create-data.sql
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - restaurant_manage_backend_network
+  restaurant_manage_backend:
+    build:
+      context: .
+    ports:
+      - 7443:3000
+    volumes:
+      - ./uploads:/home/node/uploads
+    environment:
+      NODE_ENV: development
+      DATABASE_HOST: restaurant_manage_postgresql
+      DATABASE_NAME: restaurant_manage
+      DATABASE_USER_NAME: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_PORT: 5432
+    networks:
+      - restaurant_manage_backend_network
+    links:
+      - restaurant_manage_postgresql
+volumes:
+  postgresql_data:
+    driver: local
+networks:
+  restaurant_manage_backend_network:

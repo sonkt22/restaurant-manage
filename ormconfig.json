@@ -1,0 +1,17 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "restaurant_manage",
+  "entities": ["./dist/**/**.entity{.ts,.js}"],
+  "subscribers": ["./dist/**/**.subscriber{.ts,.js}"],
+  "synchronize": false,
+  "logging": true,
+  "migrationsRun": true,
+  "migrations": ["./dist/migrations/*.js"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  }
+}
